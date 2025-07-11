@@ -19,7 +19,7 @@ public class AppConfig {
             }
 
             @Override
-            public int cal(int lh, int rh) {
+            public int apply(int lh, int rh) {
                 return lh + rh;
             }
         };
@@ -34,7 +34,7 @@ public class AppConfig {
             }
 
             @Override
-            public int cal(int lh, int rh) {
+            public int apply(int lh, int rh) {
                 return lh - rh;
             }
         };

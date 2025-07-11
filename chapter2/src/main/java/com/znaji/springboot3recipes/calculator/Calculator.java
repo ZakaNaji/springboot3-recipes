@@ -17,7 +17,7 @@ public class Calculator {
 
         operations.stream()
                 .filter(operation -> operation.support(op))
-                .map(operation -> operation.cal(lh, rh))
+                .map(operation -> operation.apply(lh, rh))
                 .peek(result -> System.out.printf("%d %s %d = %d\n", lh, op, rh, result))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Operation " + op + " not supported"))
