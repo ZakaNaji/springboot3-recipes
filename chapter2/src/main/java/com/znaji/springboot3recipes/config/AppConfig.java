@@ -2,6 +2,7 @@ package com.znaji.springboot3recipes.config;
 
 import com.znaji.springboot3recipes.calculator.Calculator;
 import com.znaji.springboot3recipes.calculator.Operation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,11 +41,13 @@ public class AppConfig {
     }
 
     @Bean
-    public ApplicationRunner runner (Calculator calculator) {
+    public ApplicationRunner runner (Calculator calculator,
+                                     @Value("${lh}") int lh,
+                                     @Value("${rh}") int rh,
+                                     @Value("${op}") char op) {
         return args -> {
             System.out.println("Inside Runner doing somme cal tests: ");
-            calculator.calculate(10, 20, '+');
-            calculator.calculate(10, 20, '-');
+            calculator.calculate(lh, rh, op);
         };
     }
 }
