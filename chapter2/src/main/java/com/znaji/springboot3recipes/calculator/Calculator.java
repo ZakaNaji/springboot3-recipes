@@ -24,4 +24,12 @@ public class Calculator {
                 ;
 
     }
+
+    public int calculate(int a, int b, String op) {
+        return operations.stream()
+                .filter(o -> o.support(op.charAt(0)))
+                .map(o -> o.apply(a, b))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Operation " + op + " not supported"));
+    }
 }
