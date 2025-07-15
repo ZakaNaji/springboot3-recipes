@@ -2,6 +2,7 @@ package com.znaji.springboot3recipes.books.controller;
 
 import com.znaji.springboot3recipes.books.model.Book;
 import com.znaji.springboot3recipes.books.service.BookService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,7 +24,7 @@ public class BooksController {
         return bookService.findAll();
     }
 
-    @GetMapping("/{isbn}")
+    @GetMapping(value = "/{isbn}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<Book> find(@PathVariable String isbn) {
         return ResponseEntity.of(bookService.find(isbn));
     }
