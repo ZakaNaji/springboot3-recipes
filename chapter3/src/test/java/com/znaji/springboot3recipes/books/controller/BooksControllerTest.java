@@ -52,4 +52,14 @@ class BooksControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void shouldReturnBookWhenFound() throws Exception{
+        when(bookService.find(anyString())).thenReturn(Optional.of(new Book("123", "My Diary", List.of("Z.Naji"))));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/123"))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn", Matchers.equalTo("123")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.equalTo("My Diary")));
+    }
+
 }
