@@ -13,8 +13,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,6 +42,14 @@ class BooksControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].isbn", Matchers.containsInAnyOrder("123", "321")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].title", Matchers.containsInAnyOrder("Spring 5 Recipes", "Pro Spring MVC")));
+    }
+
+    @Test
+    void shouldReturn404WhenBookNotFound() throws Exception{
+        when(bookService.find(anyString())).thenReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/123"))
+                .andExpect(status().isNotFound());
     }
 
 }
