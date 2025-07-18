@@ -6,6 +6,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,6 +62,26 @@ class BooksControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isbn", Matchers.equalTo("123")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.equalTo("My Diary")));
+    }
+
+    @Test
+    void shouldAddBook() throws Exception{
+        when(bookService.create(any(Book.class))).thenReturn(new Book("123", "My Diary", List.of("Z.Naji")));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "isbn": "123",
+                      "title": "My Diary",                   
+                      "authors": [
+                                     "Z.Naji"
+                                 ]
+                    }
+                    """))
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.header().string("Location","http://localhost/books/123"));
+
     }
 
 }
