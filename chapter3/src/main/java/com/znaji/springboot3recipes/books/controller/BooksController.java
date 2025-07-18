@@ -29,6 +29,11 @@ public class BooksController {
         return ResponseEntity.of(bookService.find(isbn));
     }
 
+    @GetMapping(value = "/{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Book> find2(@PathVariable String isbn) {
+        return ResponseEntity.of(bookService.find(isbn));
+    }
+
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book book, UriComponentsBuilder uriBuiler) {
         var created = bookService.create(book);
