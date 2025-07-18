@@ -5,6 +5,9 @@ import com.znaji.springboot3recipes.books.service.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 @Controller
 public class BooksWebController {
@@ -20,5 +23,13 @@ public class BooksWebController {
         Iterable<Book> all = bookService.findAll();
         model.addAttribute("books", all);
         return "books/list";
+    }
+
+    @GetMapping(value = "books.html", params = "isbn")
+    public String bookDetails(@RequestParam("isbn") String isbn, Model model) {
+        Optional<Book> bookContainer = bookService.find(isbn);
+        Book book = bookContainer.orElse(null);
+        model.addAttribute("book", book);
+        return "books/details";
     }
 }
