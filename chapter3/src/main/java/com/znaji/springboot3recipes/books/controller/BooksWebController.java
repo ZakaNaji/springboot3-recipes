@@ -27,9 +27,8 @@ public class BooksWebController {
 
     @GetMapping(value = "books.html", params = "isbn")
     public String bookDetails(@RequestParam("isbn") String isbn, Model model) {
-        Optional<Book> bookContainer = bookService.find(isbn);
-        Book book = bookContainer.orElse(null);
-        model.addAttribute("book", book);
+        bookService.find(isbn)
+                .ifPresent(book -> model.addAttribute("book", book));
         return "books/details";
     }
 }
