@@ -5,6 +5,7 @@ import com.znaji.springboot3recipes.books.service.BookService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -39,5 +40,11 @@ public class BooksController {
         var created = bookService.create(book);
         URI uri = uriBuiler.path("/books/{isbn}").build(created.isbn());
         return ResponseEntity.created(uri).body(created);
+    }
+
+    @GetMapping("/500")
+    public void error() {
+        var cause = new NullPointerException("Dummy exception");
+        throw new ServerErrorException(cause.getMessage(), cause);
     }
 }
