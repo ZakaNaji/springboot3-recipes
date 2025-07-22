@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
@@ -15,7 +15,7 @@ public class BooksConfig implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
-        var localeResolver = new SessionLocaleResolver();
+        var localeResolver = new CookieLocaleResolver("langCookie");
         localeResolver.setDefaultLocale(Locale.US);
         return localeResolver;
     }
@@ -23,7 +23,7 @@ public class BooksConfig implements WebMvcConfigurer {
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("lng");
+        localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
 
